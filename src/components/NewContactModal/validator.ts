@@ -17,13 +17,6 @@ export const schema = z.object({
     .max(11, "This field needs 11 numbers")
     .nonempty("Cannot be empty"),
 
-    password: 
-    z.string()
-    .min(8, "Minimum of 8 caracters")
-    .nonempty("Cannot be empty")
 })
 
-export type IRegisterData = z.infer<typeof schema>
-export interface IClientData extends IRegisterData {
-    created_at: string
-}
+export type IContactData = z.infer<typeof schema>

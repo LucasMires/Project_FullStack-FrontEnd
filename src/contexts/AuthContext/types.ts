@@ -12,11 +12,18 @@ export interface IClientProps {
     created_at: string
     client_id: number
 }
+export type IClientData = Omit<IClientProps, "created_at" | "client_id" | "id"> 
+
+export type IRegisterData = Omit<IClientProps, "client_id">
 
 export interface AuthContextValues {
     signIn: (data: ILoginData) => void
-    loading: boolean
-    clientInfo: IClientProps 
+    signUp: (data:IRegisterData) => void
+
+    updateClient: (id: number, data: Partial<IClientProps>) => void
+    deleteClient: (id: number) => void
     getUserInfo: () => Promise<void>
 
+    loading: boolean
+    clientInfo: IClientProps 
 }

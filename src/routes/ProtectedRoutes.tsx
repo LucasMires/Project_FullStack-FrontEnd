@@ -1,11 +1,8 @@
-import { useContext } from "react"
-import { AuthContext } from "../contexts/AuthContext/AuthContext"
 import { Outlet } from "react-router-dom"
+import { ContextsProps } from "../hooks/ContextsProps"
 
 export const ProtectedRoutes = () => {
-    const { loading } = useContext(AuthContext)
-
-
+    const { authProps:{ loading } } = ContextsProps()
     if (!loading) {
         return <Outlet/>
     }

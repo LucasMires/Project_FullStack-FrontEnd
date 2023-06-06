@@ -1,11 +1,11 @@
-import { LoginForm } from "../../components/LoginForm"
+import { RegisterForm } from "../../components/RegisterForm"
 import { StyledMain } from "./style"
 
-export const LoginPage = () => {
+export const RegisterPage = () => {
     return (
         <>
             <StyledMain>
-                <LoginForm/>
+                <RegisterForm/>
             </StyledMain>
         </>
     )

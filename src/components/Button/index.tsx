@@ -6,7 +6,7 @@ interface IButtonProps {
     type: "button" | "submit" | "reset" | undefined
     disabled?: boolean
     className?: string 
-    onClick?: () => void
+    onClick?: () => void | ((modalName: string) => void)
 }
 
 export const Button = ({ children, type, disabled, className, onClick }:IButtonProps) => {

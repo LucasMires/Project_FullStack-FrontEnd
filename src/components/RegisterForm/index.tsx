@@ -3,58 +3,83 @@ import { StyledForm } from "./style"
 import { InputField } from "../Input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { IRegisterData, schema } from "./validator"
-import { AuthContext } from "../../contexts/AuthContext/AuthContext" 
-import { useContext } from "react"
+import { ContextsProps } from "../../hooks/ContextsProps"
+import { Button } from "../Button"
+import { Link } from "react-router-dom"
+
+export interface IRegisterDataWithId extends IRegisterData{
+    created_at: string
+    id: number
+}
 
 export const RegisterForm = () => {
-    const { register, handleSubmit } = useForm<IRegisterData>({
+    const { register, handleSubmit } = useForm<IRegisterDataWithId>({
         resolver: zodResolver(schema)
     })
-    const {  } = useContext(AuthContext)
+    const { authProps:{signUp} } = ContextsProps()
     
 
     return (
-        <StyledForm onSubmit={ handleSubmit(() => console.log("hi")) }>
+        <StyledForm onSubmit={ handleSubmit(signUp) }>
+            <h2>SV Contacts - Register</h2>
+
+            <div>
+                <Link to="/Register">
+                    Register
+                </Link>
+                <Link to="/login">
+                    Login
+                </Link>
+            </div>
+
             <InputField 
                 // disabled
                 // fieldClass=""
                 // inputClass=""
                 id="name"
-                label="name"
+                label="Name:"
                 type="text"
-                placeholder="Insert your name"
+                placeholder="Name"
                 { ...register("name") }
             />
+
             <InputField 
                 // disabled
                 // fieldClass=""
                 // inputClass=""
                 id="email"
-                label="email"
-                type="text"
-                placeholder="Insert your email"
+                label="Email:"
+                type="email"
+                placeholder="Email"
                 { ...register("email") }
             />
+
             <InputField 
                 // disabled
                 // fieldClass=""
                 // inputClass=""
                 id="phone_number"
-                label="phone_number"
+                label="Phone Number:"
                 type="text"
-                placeholder="Insert your phone_number"
+                placeholder="Phone Number"
                 { ...register("phone_number") }
             />
+
             <InputField 
                 // disabled
                 // fieldClass=""
                 // inputClass=""
                 id="password"
-                label="password"
-                type="text"
-                placeholder="Insert your password"
+                label="Password:"
+                type="password"
+                placeholder="Password"
                 { ...register("password") }
             />
+            <Button 
+                type="submit"
+                children="Sign In"
+            />
+            <p>Already have an account? <Link to="/login">Login</Link></p>
         </StyledForm>
     )
 }

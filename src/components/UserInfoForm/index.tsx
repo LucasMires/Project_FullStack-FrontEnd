@@ -3,16 +3,15 @@ import { StyledForm } from "./style"
 import { InputField } from "../Input"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { LoginData, schema } from "./validator"
-import { AuthContext } from "../../contexts/AuthContext/AuthContext" 
-import { useContext } from "react"
 import { Button } from "../Button"
+import { ContextsProps } from "../../hooks/ContextsProps"
 
 export const UserInfoForm = () => {
     const { register, handleSubmit, formState:{ errors } } = useForm<LoginData>({
         resolver: zodResolver(schema),
         mode: "onBlur"
     })
-    const { signIn } = useContext(AuthContext)
+    const { authProps:{ signIn } } = ContextsProps()
     
 
     return (

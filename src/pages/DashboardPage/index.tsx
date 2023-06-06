@@ -1,17 +1,30 @@
-import { Button } from "../../components/Button"
 import { StyledMain } from "./style"
 import { CardContact } from "../../components/CardContact"
 import { CardClient } from "../../components/CardClient"
-import { DashboardAuth } from "../../hooks/dashboardAuth"
+import { ContextsProps } from "../../hooks/ContextsProps"
 import { useEffect } from "react"
+import { Header } from "../../components/Header"
+import { BaseModal } from "../../components/BaseModal"
+import { ClientModal } from "../../components/ClientModal"
+import { Button } from "../../components/Button"
+import { ContactModal } from "../../components/ContactModal"
+import { NewContactModal } from "../../components/NewContactModal"
 
 export const DashboardPage = () => {
     const {
-        authProps:{clientInfo, getUserInfo},
+        authProps:{ getUserInfo },
         contactProps: {
-            contacts, getContacts, logout, verifyToken
+            contacts,
+            getContacts,
+            verifyToken,
+
+            clientModal,
+            contactsModal,
+            warningModal,
+            addContactModal,
+            callAddContact
         }
-    } = DashboardAuth()
+    } = ContextsProps()
 
     useEffect(()=> {
         getUserInfo()
@@ -21,33 +34,56 @@ export const DashboardPage = () => {
 
     return (
         <>
-        {/* header */}
-            <Button 
-                type="button"
-                onClick={logout}
-                children="Logout"
-            />
+        <Header />
             <StyledMain>
                 <section className="userInfo_section">
                     <h2>User Information:</h2>
-                    <CardClient
-                        key={clientInfo.client_id}
-                        userInfo={clientInfo}
-                    />
+                    <CardClient/>
 
-                    {/* </CardClient> */}
                 </section>
                 <section className="contacts_section">
-                    <h2>Contacts</h2>
+                    <div>
+                        <h2>Contacts</h2>
+                        <Button
+                            type="button"
+                            children="Add Contact"
+                            onClick={callAddContact}
+                        />
+                    </div>
                     <ul>
                         {
-                            contacts.map(
-                                contact => <CardContact key={contact.id} contact={contact}/>
-                            )
+                            contacts.map(contact => <CardContact key={contact.id} contact={contact}/>)
                         }
                     </ul>
                 </section>
-                {/* Modal - ComponentModal */}
+
+                {
+                    clientModal && 
+                    <BaseModal>
+                        <ClientModal />
+                    </BaseModal>
+                }
+
+                {
+                    contactsModal && 
+                    <BaseModal>
+                        <ContactModal />
+                    </BaseModal>
+                }
+
+                {
+                    warningModal && 
+                    <BaseModal>
+                        <NewContactModal />
+                    </BaseModal>
+                }
+
+                {
+                    addContactModal && 
+                    <BaseModal>
+                        <NewContactModal />
+                    </BaseModal>
+                }
 
         </StyledMain>
         </>

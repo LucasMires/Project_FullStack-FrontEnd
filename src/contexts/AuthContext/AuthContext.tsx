@@ -4,7 +4,8 @@ import { api } from "../../services";
 import { useNavigate } from "react-router-dom";
 import {
     AuthContextValues,
-    IAuthProviderProps
+    IAuthProviderProps,
+    IRegisterData
 } from "./types";
 import { IClientProps } from "./types";
 
@@ -16,10 +17,8 @@ export const AuthProvider = ({children}: IAuthProviderProps) => {
     const [ loading, setLoading ]= useState(true)
     const [ clientInfo, setClientInfo ] = useState({} as IClientProps)
 
-
     useEffect(() => {
         const token = localStorage.getItem("SVContacts | Token:")
-
         if (token) {
             api.defaults.headers.common.authorization = `Bearer ${token}`
         }
@@ -29,13 +28,11 @@ export const AuthProvider = ({children}: IAuthProviderProps) => {
     const signIn = async (data: ILoginData) => {
         try {
             const response = await api.post("/login", data)
-
             const { token } = response.data
 
             localStorage.setItem("SVContacts | Token:", token)
             api.defaults.headers.common.authorization = `Bearer ${token}`
 
-            // Toast
             navigate("dashboard")
 
         } catch(error) {
@@ -43,6 +40,16 @@ export const AuthProvider = ({children}: IAuthProviderProps) => {
         }
     }
 
+    const signUp = async (data: IRegisterData) => {
+        try {
+            await api.post("/clients/", data)
+            navigate("login")
+
+        } catch(error) {
+            console.error(error)
+        }
+    }
+    
     const getUserInfo = async () => {
         try {
             const response = await api.get<IClientProps>("/clients/info")
@@ -53,13 +60,36 @@ export const AuthProvider = ({children}: IAuthProviderProps) => {
         }
     }
 
+    const updateClient = async (id: number, data: Partial<IClientProps>) => {
+        try {
+            const response = await api.patch<IClientProps>(`/clients/${id}/`, data)
+            setClientInfo(response.data)
+
+        } catch(error) {
+            console.error(error)
+        }
+    }
+
+    const deleteClient = async (id: number) => {
+        try {
+            await api.delete<void>(`/clients/${id}/`)
+            navigate("login")
+
+        } catch(error) {
+            console.error(error)
+        }
+    }
+
     return (
         <AuthContext.Provider
             value={{
                 signIn,
+                signUp,
                 loading,
                 clientInfo,
-                getUserInfo
+                getUserInfo,
+                updateClient,
+                deleteClient
             }}
         >
             {children}

@@ -1,20 +1,27 @@
 import { StyledCard } from "./style"
-import { IContactsProps } from "../../contexts/ContactsContext/ContactsContext"
+import { IContactsProps } from "../../contexts/ContactsContext/types" 
+import { ContextsProps } from "../../hooks/ContextsProps"
 
 interface ICardContactProps {
     contact: IContactsProps
 }
 
-
 export const CardContact = ({ contact }: ICardContactProps) => {
-    const registedIn = contact.created_at.slice(0,10)
+
+    const { contactProps: {
+        selectedContact,
+        callContactModal
+    } } = ContextsProps()
+
+    const targetCard = () => {
+        selectedContact(contact)
+        callContactModal()
+    }
 
     return (
-        <StyledCard>
+        <StyledCard onClick={targetCard}>
             <h2>{contact.name}</h2>
-            {contact.email && <p>{contact.email}</p>}
-            <p>{contact.phone_number}</p>
-            <p>Registered in: {registedIn}</p>
+            <p>Registered in: {contact.created_at.slice(0,10)}</p>
         </StyledCard>
     )
 }

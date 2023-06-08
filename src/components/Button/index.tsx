@@ -1,0 +1,24 @@
+import React from "react"
+import { StyledButton } from "../../styles/ButtonStyles"
+
+
+interface IButtonProps {
+    children?: React.ReactNode
+    type: "button" | "submit" | "reset" | undefined
+    disabled?: boolean
+    className?: string 
+    onClick?: () => void | ((modalName: string) => void)
+}
+
+export const Button = ({ children, type, disabled, className, onClick }:IButtonProps) => {
+    return (
+        <StyledButton
+            type={ type }
+            disabled={ disabled }
+            className={ className }
+            onClick={ onClick }
+        >
+            { children }
+        </StyledButton>
+    )
+}

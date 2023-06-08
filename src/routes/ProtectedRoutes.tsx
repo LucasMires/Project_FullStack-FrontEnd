@@ -6,6 +6,5 @@ export const ProtectedRoutes = () => {
     if (!loading) {
         return <Outlet/>
     }
-
     return <div>Loading Screen...</div>
 }

@@ -14,6 +14,7 @@ export const MainRoutes = () => {
             <Route element={<ProtectedRoutes/>}>
                 <Route path="/dashboard" element={<DashboardPage/>}/>
             </Route>
+            <Route path="*" element={<LoginPage />}/>
         </Routes>
     )
 }

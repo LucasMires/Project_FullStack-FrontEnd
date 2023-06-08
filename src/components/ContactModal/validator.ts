@@ -19,4 +19,4 @@ export const schema = z.object({
     .or(z.literal("")),
 })
 
-export type IUpdatedContactData = z.infer<typeof schema>
+export type IUpdatedContactData = Partial<z.infer<typeof schema>>

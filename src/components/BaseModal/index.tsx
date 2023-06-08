@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react"
 import { Container } from "./style"
 import { createPortal } from "react-dom"
-import { Button } from "../Button"
 import { ContextsProps } from "../../hooks/ContextsProps"
+import { GrClose } from "react-icons/gr"
 
 
 interface IBaseModal {
@@ -37,12 +37,12 @@ export const BaseModal = ({ children }: IBaseModal) => {
         <Container>
             <div ref={ref}>
                 {children}
-                <Button
+                <figure 
                     className="closeModal"
-                    type="button"
                     onClick={closeModals}
-                    children="X"
-                />
+                >
+                    <GrClose />
+                </figure>
             </div>
         </Container>,
         document.body

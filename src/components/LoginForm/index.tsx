@@ -10,10 +10,10 @@ import { Link } from "react-router-dom"
 export const LoginForm = () => {
     const { register, handleSubmit, formState:{ errors } } = useForm<ILoginData>({
         resolver: zodResolver(schema),
-        mode: "onBlur"
+        mode: "onChange"
     })
+
     const { authProps:{ signIn } } = ContextsProps()
-    
 
     return (
         <StyledForm onSubmit={ handleSubmit(signIn) }>
@@ -28,9 +28,6 @@ export const LoginForm = () => {
                 </Link>
             </div>
             <InputField 
-                // disabled
-                // fieldClass=""
-                // inputClass=""
                 id="email"
                 label="Email:"
                 type="email"
@@ -40,9 +37,6 @@ export const LoginForm = () => {
             />
 
             <InputField 
-                // disabled
-                // fieldClass=""
-                // inputClass=""
                 id="password"
                 label="Password:"
                 type="password"
@@ -53,8 +47,10 @@ export const LoginForm = () => {
             <Button 
                 type="submit"
                 children= "Login"
+                className="brandButton2"
             />
-            <p>Create an account <Link to="/register">Signup now</Link></p>
+            <p>Create an account <Link to="/register">Signup now</Link>
+            </p>
         </StyledForm>
     )
 }

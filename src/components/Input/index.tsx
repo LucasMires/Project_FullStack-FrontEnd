@@ -1,5 +1,5 @@
 import { forwardRef, InputHTMLAttributes } from "react"
-import { StlyedField } from "./style"
+import { StyledField } from "../../styles/InputStyles" 
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
     label?: string
@@ -13,21 +13,25 @@ export const InputField = forwardRef<HTMLInputElement, InputProps>(
     ({ id, label, type, placeholder, fieldClass, inputClass, disabled, errors, onChange, name, ...rest}, ref) => {
 
         return (
-            <StlyedField className={ fieldClass }>
+            <StyledField className={ fieldClass }>
                 <label htmlFor={ id }>{ label }</label>
                 <input
                 id= { id }
                 type= { type } 
                 placeholder= { placeholder }
                 disabled= { disabled }
-                className= { errors ? "ErrorBorder": inputClass }
+                className= { errors ? "errorBorder": inputClass }
                 onChange= { onChange }
                 ref= { ref }
                 name= { name }
                 { ...rest }
                 />
-                { errors !== undefined && <p>{ errors }</p> }
-            </StlyedField>
+                {
+                errors !== undefined && 
+                <p className="errorWarning">
+                    { errors }
+                </p>
+                    }
+            </StyledField>
         )
-
 })

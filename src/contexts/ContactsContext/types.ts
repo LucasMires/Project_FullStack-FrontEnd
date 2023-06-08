@@ -8,8 +8,10 @@ export interface IContactContextValues {
 
     logout: () => void
     verifyToken: () => void
+    filteredContacts: IContactsProps[]
 
     getContacts: () => Promise<void>
+    SearchContact: (contactName: string) => Promise<void>
     createContact: (data: IClientData) => Promise<void>
     updateContact: (id: number, data: Partial<IClientProps>) => Promise<void>
     deleteContact: (id: number) => Promise<void>
@@ -17,7 +19,7 @@ export interface IContactContextValues {
     callClientModal: () => void
     callContactModal: () => void
     callWarningModal: () => void
-    callAddContact: () => void
+    callAddContactModal: () => void
 
     closeModals: () => void
     selectedContact: (contact: IContactsProps) => void

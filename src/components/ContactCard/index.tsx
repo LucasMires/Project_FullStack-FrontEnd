@@ -2,11 +2,11 @@ import { StyledCard } from "./style"
 import { IContactsProps } from "../../contexts/ContactsContext/types" 
 import { ContextsProps } from "../../hooks/ContextsProps"
 
-interface ICardContactProps {
+interface IContactCardProps {
     contact: IContactsProps
 }
 
-export const CardContact = ({ contact }: ICardContactProps) => {
+export const ContactCard = ({ contact }: IContactCardProps) => {
 
     const { contactProps: {
         selectedContact,
@@ -21,7 +21,6 @@ export const CardContact = ({ contact }: ICardContactProps) => {
     return (
         <StyledCard onClick={targetCard}>
             <h2>{contact.name}</h2>
-            <p>Registered in: {contact.created_at.slice(0,10)}</p>
         </StyledCard>
     )
 }

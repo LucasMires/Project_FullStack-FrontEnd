@@ -1,6 +1,6 @@
 import { StyledMain } from "./style"
-import { CardContact } from "../../components/CardContact"
-import { CardClient } from "../../components/CardClient"
+import { ContactCard } from "../../components/ContactCard"
+import { ClientCard } from "../../components/ClientCard"
 import { ContextsProps } from "../../hooks/ContextsProps"
 import { useEffect } from "react"
 import { Header } from "../../components/Header"
@@ -8,12 +8,14 @@ import { BaseModal } from "../../components/BaseModal"
 import { ClientModal } from "../../components/ClientModal"
 import { Button } from "../../components/Button"
 import { ContactModal } from "../../components/ContactModal"
-import { NewContactModal } from "../../components/NewContactModal"
+import { AddContactModal } from "../../components/AddContactModal"
+import { WarningModal } from "../../components/WarningModal"
 
 export const DashboardPage = () => {
     const {
         authProps:{ getUserInfo },
         contactProps: {
+            filteredContacts,
             contacts,
             getContacts,
             verifyToken,
@@ -22,37 +24,49 @@ export const DashboardPage = () => {
             contactsModal,
             warningModal,
             addContactModal,
-            callAddContact
+            callAddContactModal,
+
+            SearchContact
         }
     } = ContextsProps()
 
     useEffect(()=> {
-        getUserInfo()
         verifyToken()
+        getUserInfo()
         getContacts()
     },[])
-
+    
     return (
         <>
         <Header />
             <StyledMain>
                 <section className="userInfo_section">
-                    <h2>User Information:</h2>
-                    <CardClient/>
+                    <h2>Account Information</h2>
+                    <ClientCard/>
 
                 </section>
                 <section className="contacts_section">
-                    <div>
                         <h2>Contacts</h2>
+                    <div>
+                        <input 
+                            type="text"
+                            placeholder="Search Contact"
+                            onChange={(event) => SearchContact(event.target.value)}
+                        />
                         <Button
                             type="button"
                             children="Add Contact"
-                            onClick={callAddContact}
+                            onClick={callAddContactModal}
+                            className="brandButton1"
                         />
                     </div>
                     <ul>
                         {
-                            contacts.map(contact => <CardContact key={contact.id} contact={contact}/>)
+                            filteredContacts.length !== 0?
+
+                            filteredContacts.map(contact => <ContactCard key={contact.id} contact={contact}/>)
+                            :
+                            contacts.map(contact => <ContactCard key={contact.id} contact={contact}/>) 
                         }
                     </ul>
                 </section>
@@ -74,14 +88,14 @@ export const DashboardPage = () => {
                 {
                     warningModal && 
                     <BaseModal>
-                        <NewContactModal />
+                        <WarningModal />
                     </BaseModal>
                 }
 
                 {
                     addContactModal && 
                     <BaseModal>
-                        <NewContactModal />
+                        <AddContactModal />
                     </BaseModal>
                 }
 

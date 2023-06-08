@@ -7,18 +7,14 @@ import { ContextsProps } from "../../hooks/ContextsProps"
 import { Button } from "../Button"
 import { Link } from "react-router-dom"
 
-export interface IRegisterDataWithId extends IRegisterData{
-    created_at: string
-    id: number
-}
 
 export const RegisterForm = () => {
-    const { register, handleSubmit } = useForm<IRegisterDataWithId>({
+    const { register, handleSubmit } = useForm<IRegisterData>({
         resolver: zodResolver(schema)
     })
+
     const { authProps:{signUp} } = ContextsProps()
     
-
     return (
         <StyledForm onSubmit={ handleSubmit(signUp) }>
             <h2>SV Contacts - Register</h2>
@@ -33,9 +29,6 @@ export const RegisterForm = () => {
             </div>
 
             <InputField 
-                // disabled
-                // fieldClass=""
-                // inputClass=""
                 id="name"
                 label="Name:"
                 type="text"
@@ -44,9 +37,6 @@ export const RegisterForm = () => {
             />
 
             <InputField 
-                // disabled
-                // fieldClass=""
-                // inputClass=""
                 id="email"
                 label="Email:"
                 type="email"
@@ -55,9 +45,6 @@ export const RegisterForm = () => {
             />
 
             <InputField 
-                // disabled
-                // fieldClass=""
-                // inputClass=""
                 id="phone_number"
                 label="Phone Number:"
                 type="text"
@@ -66,9 +53,6 @@ export const RegisterForm = () => {
             />
 
             <InputField 
-                // disabled
-                // fieldClass=""
-                // inputClass=""
                 id="password"
                 label="Password:"
                 type="password"
@@ -78,6 +62,7 @@ export const RegisterForm = () => {
             <Button 
                 type="submit"
                 children="Sign In"
+                className="brandButton2"
             />
             <p>Already have an account? <Link to="/login">Login</Link></p>
         </StyledForm>

@@ -9,7 +9,8 @@ export const schema = z.object({
 
     email: 
     z.string()
-    .email("Invalid Email"),
+    .email("Invalid Email")
+    .or(z.literal("")),
 
     phone_number: 
     z.string()
@@ -19,4 +20,4 @@ export const schema = z.object({
 
 })
 
-export type IContactData = z.infer<typeof schema>
+export type IAddContactData = z.infer<typeof schema>

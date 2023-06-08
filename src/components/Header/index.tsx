@@ -17,6 +17,7 @@ export const Header = () => {
                 type="button"
                 children="Logout"
                 onClick={logout}
+                className="brandButton1"
             />
         </StyledHeader>
     )

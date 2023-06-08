@@ -1,4 +1,5 @@
 import { ILoginData } from "../../components/LoginForm/validator"
+import { IRegisterData } from "../../components/RegisterForm/validator"
 
 export interface IAuthProviderProps {
     children: React.ReactNode
@@ -13,8 +14,6 @@ export interface IClientProps {
     client_id: number
 }
 export type IClientData = Omit<IClientProps, "created_at" | "client_id" | "id"> 
-
-export type IRegisterData = Omit<IClientProps, "client_id">
 
 export interface AuthContextValues {
     signIn: (data: ILoginData) => void

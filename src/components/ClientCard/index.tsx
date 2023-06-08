@@ -7,7 +7,7 @@ export interface IUserInfoProps {
     userInfo: IClientData
 }
 
-export const CardClient = () => {
+export const ClientCard = () => {
 
     const {
         authProps:{ clientInfo },
@@ -17,12 +17,12 @@ export const CardClient = () => {
 
     return (
         <StyledArticle>
-            <h2>Client: {clientInfo.name}</h2>
 
             <div className="div-client-info">
+                <p>Client: { clientInfo.name }</p>
                 <p>Email: { clientInfo.email }</p>
-                <p>Phone Number: { clientInfo.phone_number }</p>
-                <p>Registered In: { clientInfo.created_at?.slice(0, 10) }</p>
+                <p>Number: { clientInfo.phone_number }</p>
+                <p>Registered in: { clientInfo.created_at?.slice(0, 10) }</p>
             </div>
 
             <div className="div-client-buttons">
@@ -30,12 +30,14 @@ export const CardClient = () => {
                     type="button"
                     children="Change Information"
                     onClick={ callClientModal }
+                    className="brandButton2"
                 />
 
                 <Button 
                     type="button"
                     children="Delete Account"
                     onClick={callWarningModal}
+                    className="brandButton2"
                 />
             </div>
 

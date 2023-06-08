@@ -3,8 +3,6 @@ import { styled } from "styled-components";
 export const Container = styled.main`
     width: 100%;
     height: 100vh;
-
-    background-color: var(--bg-color-backDrop);
     
     position: fixed;
     top: 0;
@@ -13,19 +11,33 @@ export const Container = styled.main`
     justify-content: center;
     align-items: center;
 
+    background-color: var(--bg-color-backDrop);
+
     & > div{
+        max-width: 85%;
+        padding: 1rem;
         position: relative;
-        max-width: 90%;
+        
+        background-color: var(--color-gray0);
+        border-radius: 1rem;
+
+        animation: showModal 0.5s;
     }
 
     & > div > .closeModal {
         position: absolute;
-        top: 4%;
-        right: 2%;
+        top: 3%;
+        right: 1%;
     }
 
-    .closeModal {
-        border-radius: 0.5rem;
+    .closeModal > svg{
+        width: 2rem;
+        height: 1.3rem;
+        cursor: pointer;
     }
 
+    @keyframes showModal {
+        0% {
+            transform: translateY(-100vh);}
+    }
 `

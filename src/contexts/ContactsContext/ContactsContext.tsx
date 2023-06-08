@@ -7,6 +7,7 @@ import {
     IContactsProps,
 } from "./types";
 import { IClientData, IClientProps } from "../AuthContext/types";
+import { toast } from "react-toastify";
 
 
 export const ContactsContext = createContext({} as IContactContextValues)
@@ -16,6 +17,8 @@ export const ContactsProvider = ({children}: IContactProviderProps) => {
 
     const [ contacts, setContacts ] = useState<IContactsProps[]>([])
     const [ activeContact, setActiveContact ] = useState({} as IContactsProps)
+
+    const [ filteredContacts, setFilteredContacts ] = useState<IContactsProps[]>(contacts)
 
     const [ clientModal, setClientModal ] = useState(false)
     const [ contactsModal, setContactsModal ] = useState(false)
@@ -35,7 +38,7 @@ export const ContactsProvider = ({children}: IContactProviderProps) => {
         setWarningModal(!warningModal)
     }
 
-    const callAddContact = () => {
+    const callAddContactModal = () => {
         setAddContactModal(!addContactModal)
     }
     const closeModals = () => {
@@ -51,13 +54,17 @@ export const ContactsProvider = ({children}: IContactProviderProps) => {
 
     const logout = () => {
         localStorage.clear()
-        navigate("/")
+        toast.warning("Closing Session")
+        setTimeout(() => {
+            navigate("/")
+        }, 2000);
     }
 
     const verifyToken = () => {
         const token = localStorage.getItem("SVContacts | Token:")
+
         if (!token) {
-            navigate("/")
+            logout()
         }
     }
 
@@ -66,8 +73,12 @@ export const ContactsProvider = ({children}: IContactProviderProps) => {
             const response = await api.get<IContactsProps[]>("/contacts")
             setContacts(response.data)
 
-        } catch (error) {
-            console.error(error)
+        } catch (error: any) {
+            if (error.response.data.message) {
+                toast.error(error.response.data.message)
+            } else {
+                toast.error("Something went wrong? Please try again")
+            }
         }
     }
 
@@ -75,9 +86,14 @@ export const ContactsProvider = ({children}: IContactProviderProps) => {
         try {
             await api.post<IContactsProps>("/contacts", data)
             getContacts()
+            toast.success("Contact created Sucessfully")
 
-        } catch (error) {
-            console.error(error)
+        } catch (error: any) {
+            if (error.response.data.message) {
+                toast.error(error.response.data.message)
+            } else {
+                toast.error("Something went wrong? Please try again")
+            }
         }
     }
 
@@ -85,30 +101,51 @@ export const ContactsProvider = ({children}: IContactProviderProps) => {
         try {
             await api.patch<IContactsProps>(`/contacts/${id}`, data)
             getContacts()
+            toast.success("Contact updated Sucessfully")
 
-        } catch (error) {
-            console.error(error)
+        } catch (error: any) {
+            if (error.response.data.message) {
+                toast.error(error.response.data.message)
+            } else {
+                toast.error("Something went wrong? Please try again")
+            }
         }
     }
+
     const deleteContact = async (id: number) => {
         try {
             await api.delete<void>(`/contacts/${id}`)
             getContacts()
 
-        } catch (error) {
-            console.error(error)
+        } catch (error: any) {
+            if (error.response.data.message) {
+                toast.error(error.response.data.message)
+            } else {
+                toast.error("Something went wrong? Please try again")
+            }
         }
+    }
+ 
+    const SearchContact = async (contactName: string) => {
+        const contactFiltered = contacts.filter((contact) => {
+            if (contact.name.toLowerCase().includes(contactName.toLowerCase())) {
+                return contact
+            }
+        })
+        setFilteredContacts(contactFiltered)
     }
 
     return (
         <ContactsContext.Provider
             value={{
                 contacts,
+                filteredContacts,
                 activeContact,
 
                 logout,
                 verifyToken,
                 getContacts,
+                SearchContact,
 
                 clientModal,
                 contactsModal,
@@ -118,7 +155,7 @@ export const ContactsProvider = ({children}: IContactProviderProps) => {
                 callClientModal,
                 callContactModal,
                 callWarningModal,
-                callAddContact,
+                callAddContactModal,
 
                 closeModals,
                 selectedContact,

@@ -24,6 +24,7 @@ export const schema = z.object({
 })
 
 export type IRegisterData = z.infer<typeof schema>
+
 export interface IClientData extends IRegisterData {
     created_at: string
 }

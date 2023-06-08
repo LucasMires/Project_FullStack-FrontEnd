@@ -5,9 +5,10 @@ import { useNavigate } from "react-router-dom";
 import {
     AuthContextValues,
     IAuthProviderProps,
-    IRegisterData
 } from "./types";
 import { IClientProps } from "./types";
+import { IRegisterData } from "../../components/RegisterForm/validator";
+import { toast } from "react-toastify";
 
 
 export const AuthContext = createContext({} as AuthContextValues)
@@ -35,8 +36,12 @@ export const AuthProvider = ({children}: IAuthProviderProps) => {
 
             navigate("dashboard")
 
-        } catch(error) {
-            console.error(error)
+        } catch (error: any) {
+            if (error.response.data.message) {
+                toast.error(error.response.data.message)
+            } else {
+                toast.error("Something went wrong? Please try again")
+            }
         }
     }
 
@@ -45,8 +50,12 @@ export const AuthProvider = ({children}: IAuthProviderProps) => {
             await api.post("/clients/", data)
             navigate("login")
 
-        } catch(error) {
-            console.error(error)
+        } catch (error: any) {
+            if (error.response.data.message) {
+                toast.error(error.response.data.message)
+            } else {
+                toast.error("Something went wrong? Please try again")
+            }
         }
     }
     
@@ -65,8 +74,12 @@ export const AuthProvider = ({children}: IAuthProviderProps) => {
             const response = await api.patch<IClientProps>(`/clients/${id}/`, data)
             setClientInfo(response.data)
 
-        } catch(error) {
-            console.error(error)
+        } catch(error: any) {
+            if (error.response.data.message) {
+                toast.error(error.response.data.message)
+            } else {
+                toast.error("Something went wrong? Please try again")
+            }
         }
     }
 
@@ -75,8 +88,12 @@ export const AuthProvider = ({children}: IAuthProviderProps) => {
             await api.delete<void>(`/clients/${id}/`)
             navigate("login")
 
-        } catch(error) {
-            console.error(error)
+        } catch (error: any) {
+            if (error.response.data.message) {
+                toast.error(error.response.data.message)
+            } else {
+                toast.error("Something went wrong? Please try again")
+            }
         }
     }
 

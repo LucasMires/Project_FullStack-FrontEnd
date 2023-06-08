@@ -79,14 +79,15 @@ export const ContactsProvider = ({children}: IContactProviderProps) => {
             } else {
                 toast.error("Something went wrong? Please try again")
             }
+            console.log(error)
         }
     }
 
     const createContact = async (data: IClientData) => {
         try {
             await api.post<IContactsProps>("/contacts", data)
+            toast.success("Contact Created")
             getContacts()
-            toast.success("Contact created Sucessfully")
 
         } catch (error: any) {
             if (error.response.data.message) {
@@ -94,14 +95,15 @@ export const ContactsProvider = ({children}: IContactProviderProps) => {
             } else {
                 toast.error("Something went wrong? Please try again")
             }
+            console.log(error)
         }
     }
 
     const updateContact = async (id: number, data: Partial<IClientProps>) => {
         try {
             await api.patch<IContactsProps>(`/contacts/${id}`, data)
+            toast.success("Contact Updated")
             getContacts()
-            toast.success("Contact updated Sucessfully")
 
         } catch (error: any) {
             if (error.response.data.message) {
@@ -109,13 +111,16 @@ export const ContactsProvider = ({children}: IContactProviderProps) => {
             } else {
                 toast.error("Something went wrong? Please try again")
             }
+            console.log(error)
         }
     }
 
     const deleteContact = async (id: number) => {
         try {
             await api.delete<void>(`/contacts/${id}`)
+            toast.success("Contact Deleted")
             getContacts()
+
 
         } catch (error: any) {
             if (error.response.data.message) {
@@ -123,6 +128,7 @@ export const ContactsProvider = ({children}: IContactProviderProps) => {
             } else {
                 toast.error("Something went wrong? Please try again")
             }
+            console.log(error)
         }
     }
  

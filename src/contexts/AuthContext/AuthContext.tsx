@@ -34,7 +34,10 @@ export const AuthProvider = ({children}: IAuthProviderProps) => {
             localStorage.setItem("SVContacts | Token:", token)
             api.defaults.headers.common.authorization = `Bearer ${token}`
 
-            navigate("dashboard")
+            toast.success("Welcome, nice to see you")
+            setTimeout(() => {
+                navigate("dashboard")
+            }, 2000);
 
         } catch (error: any) {
             if (error.response.data.message) {
@@ -42,13 +45,18 @@ export const AuthProvider = ({children}: IAuthProviderProps) => {
             } else {
                 toast.error("Something went wrong? Please try again")
             }
+            console.log(error)
         }
     }
 
     const signUp = async (data: IRegisterData) => {
         try {
             await api.post("/clients/", data)
-            navigate("login")
+            toast.success("Account Created")
+
+            setTimeout(() => {
+                navigate("login")
+            }, 2000);
 
         } catch (error: any) {
             if (error.response.data.message) {
@@ -56,6 +64,7 @@ export const AuthProvider = ({children}: IAuthProviderProps) => {
             } else {
                 toast.error("Something went wrong? Please try again")
             }
+            console.log(error)
         }
     }
     
@@ -73,6 +82,7 @@ export const AuthProvider = ({children}: IAuthProviderProps) => {
         try {
             const response = await api.patch<IClientProps>(`/clients/${id}/`, data)
             setClientInfo(response.data)
+            toast.success("Account Updated")
 
         } catch(error: any) {
             if (error.response.data.message) {
@@ -80,13 +90,18 @@ export const AuthProvider = ({children}: IAuthProviderProps) => {
             } else {
                 toast.error("Something went wrong? Please try again")
             }
+            console.log(error)
         }
     }
 
     const deleteClient = async (id: number) => {
         try {
             await api.delete<void>(`/clients/${id}/`)
-            navigate("login")
+            toast.success("We goin to miss you ;-;")
+
+            setTimeout(() => {
+                navigate("login")
+            }, 2000);
 
         } catch (error: any) {
             if (error.response.data.message) {
@@ -94,6 +109,7 @@ export const AuthProvider = ({children}: IAuthProviderProps) => {
             } else {
                 toast.error("Something went wrong? Please try again")
             }
+            console.log(error)
         }
     }
 
